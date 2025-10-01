@@ -21,7 +21,7 @@ The model uses a **hybrid architecture** of **Convolutional Neural Networks (CNN
 
 ## 📂 Project Structure
 ```
-image_analysis/
+root/
 ├── venv/                     # Python Virtual Environment
 ├── data/                     # ShanghaiTech Part A Dataset
 │   ├── test/images/          # Test images (IMG_XXX.jpg)
