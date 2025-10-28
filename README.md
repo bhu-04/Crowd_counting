@@ -1,122 +1,138 @@
-# CrowdCCT: Crowd Counting via CNN and Transformer
+# Crowd_counting
+## CNN + Transformer Hybrid for Robust Crowd Counting
 
-## 📌 Overview
-CrowdCCT is a deep learning project designed for **crowd counting** on the **ShanghaiTech Part A dataset**.  
-The model uses a **hybrid architecture** of **Convolutional Neural Networks (CNN)** and **Transformer layers** to estimate crowd counts from images.
-
-- **CNN (DenseNet-121 backbone)** extracts local visual features  
-- **Transformer layers** capture global contextual information  
-- **Combined features** improve crowd density estimation  
+This project implements a **state-of-the-art crowd counting model** that fuses a **DenseNet-121 convolutional backbone** with **Multi-Scale Dilated Attention (MSDA)** and **Location-Enhanced Attention (LEA)** modules.  
+Designed for datasets like **ShanghaiTech A**, this pipeline is flexible and can adapt to any crowd counting dataset in `.mat` format.
 
 ---
 
-## 🚀 Features
-- DenseNet-121 as backbone CNN  
-- Custom Transformer layers for context understanding  
-- L1 Loss (Mean Absolute Error) for counting accuracy  
-- Configurable hyperparameters  
-- Training, evaluation, and visualization of results  
-
----
-
-## 📂 Project Structure
+### 📁 Repository Structure
 ```
-root/
-├── venv/                     # Python Virtual Environment
-├── data/                     # ShanghaiTech Part A Dataset
-│   ├── test/images/          # Test images (IMG_XXX.jpg)
-│   └── train/images/         # Training images (IMG_XXX.jpg)
-├── src/                      # Source Code
-│   ├── config.py             # Settings and dataset paths
-│   ├── data_loader.py        # Dataset and transformations
-│   ├── main.py               # Entry point (runs training)
-│   ├── model.py              # CrowdCCT architecture
-│   └── train_eval.py         # Training and evaluation logic
-├── outputs/                  # Results and saved models
-│   ├── crowdcct_best_model.pth   # Best model weights
-│   └── training_history.png      # Training/MAE plots
-├── requirements.txt          # Dependencies
-└── README.md                 # Setup guide
+Crowd_counting/
+├── data/
+│   ├── train/
+│   │   ├── images/     # Training images
+│   │   └── annots/     # .mat annotation files
+│   └── test/
+│       ├── images/
+│       └── annots/
+├── outputs/            # Model checkpoints & prediction visualizations
+├── src/
+│   ├── model.py        # Model: DenseNet-121 + MSDA + LEA + regression head
+│   ├── train.py        # Training script (supports resume)
+│   ├── eval.py         # Evaluation & visualization
+│   ├── dataset.py      # Custom dataset loader
+│   └── utils.py        # Checkpointing, plotting, etc.
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-## ⚙️ Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone <your_repo_url>
-   cd image_analysis
-   ```
-
-2. **Create and activate a virtual environment:**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate     # Linux/Mac
-   venv\Scripts\activate        # Windows
-   ```
-
-3. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Download the ShanghaiTech Part A dataset** and place files according to the structure above.
+### 🚀 Features
+- ✅ DenseNet-121 backbone for strong local feature extraction  
+- ✅ Transformer-inspired attention modules for global context  
+- ✅ Robust regression head for precise crowd count prediction  
+- ✅ Resume training seamlessly from the latest checkpoint  
+- ✅ Visualization of predictions vs ground truth for every image  
 
 ---
 
-## 🔧 Configuration
-Modify `src/config.py` to adjust:
-- Device: `"cuda"` or `"cpu"`  
-- Learning rate, weight decay, batch size  
-- Number of Transformer layers and heads  
-- Image resize and crop dimensions  
-- Dataset paths  
-- Output paths for saved models and plots  
+### ⚙️ Installation
 
----
-
-## ▶️ Running the Project
-From the `src` folder, run:
+**1. Clone the repository**
 ```bash
-python src/main.py
+git clone https://github.com/bhu-04/Crowd_counting.git
+cd Crowd_counting
 ```
 
-This will:
-- Load training and test datasets  
-- Initialize the model  
-- Train for the configured number of epochs  
-- Evaluate on the test set after each epoch  
-- Save the **best model**  
-- Save training and evaluation plots  
+**2. Create and activate a virtual environment**
+```bash
+python -m venv venv
+source venv/bin/activate   # macOS/Linux
+# or
+.env\Scriptsctivate    # Windows
+```
 
----
+**3. Install dependencies**
+```bash
+pip install -r requirements.txt
+```
 
-## 📦 Dependencies
-- `torch >= 2.0.0`  
-- `torchvision >= 0.15.0`  
-- `numpy >= 1.24.0`  
-- `matplotlib >= 3.7.0`  
-- `scikit-learn >= 1.3.0`  
-- `Pillow >= 10.0.0`  
-
----
-
-## 📊 Results
-- Optimized for **Mean Absolute Error (MAE)** on the **ShanghaiTech Part A test set**  
-- Training and test loss curves saved in:  
+**4. Download and organize dataset**
+- Download **ShanghaiTech Part A** or any compatible `.mat`-based dataset.
+- Arrange it as:
   ```
-  outputs/training_history.png
+  data/train/images
+  data/train/annots
+  data/test/images
+  data/test/annots
   ```
 
 ---
 
-## 🔧 Customization
-- Modify Transformer architecture and training hyperparameters in `src/config.py`  
-- Extend data augmentation in `src/data_loader.py`  
-- Update training loop and evaluation metrics in `src/train_eval.py`  
+### 🧠 Usage
+
+#### 🔹 Train the Model
+```bash
+python src/train.py
+```
+- Automatically resumes from `outputs/best_model.pth` if available.  
+- Model checkpoints saved after each epoch.
+
+#### 🔹 Evaluate the Model
+```bash
+python src/eval.py
+```
+- Generates predicted vs. ground-truth visualizations.  
+- Saves metrics (MAE, MSE) and images in `outputs/`.
 
 ---
 
-## 📬 Contact
-Please open **issues** or **pull requests** for questions, bug reports, or contributions.  
+### 🧩 Model Details
+| Component | Description |
+|------------|-------------|
+| **Backbone** | DenseNet-121 pretrained on ImageNet |
+| **Attention** | Multi-Scale Dilated Attention (MSDA) + Location-Enhanced Attention (LEA) |
+| **Regressor** | Fully-connected layers with dropout for robustness |
+
+---
+
+### 🧹 Data Preprocessing
+All images are resized to **384×384** and normalized as per ImageNet standards:
+```python
+torchvision.transforms.Normalize([0.485, 0.456, 0.406],
+                                 [0.229, 0.224, 0.225])
+```
+Crowd counts are extracted automatically from `.mat` annotation files.
+
+---
+
+### 🧩 Troubleshooting
+| Issue | Possible Cause |
+|--------|----------------|
+| Model predicts near 0 for all images | Missing normalization in `dataset.py` |
+| Resume checkpoint fails | Use the latest valid `.pth` file in `outputs/` |
+| Prediction errors too large | Verify `.mat` key extraction and annotation parsing |
+
+---
+
+### 📦 Requirements
+```
+torch >= 2.0.0
+torchvision >= 0.15.0
+numpy >= 1.22
+matplotlib >= 3.5
+scikit-learn >= 1.1
+pillow >= 9.0
+tqdm >= 4.60
+scipy >= 1.7
+```
+
+---
+
+### 🤝 Contributing
+Pull requests and issues are welcome!  
+For questions or collaborations, contact **[bhu-04](https://github.com/bhu-04)**.
+
+---
