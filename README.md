@@ -59,15 +59,22 @@ source venv/bin/activate   # macOS/Linux
 pip install -r requirements.txt
 ```
 
-**4. Download and organize dataset**
-- Download **ShanghaiTech Part A** or any compatible `.mat`-based dataset.
-- Arrange it as:
-  ```
-  data/train/images
-  data/train/annots
-  data/test/images
-  data/test/annots
-  ```
+---
+
+### 📂 Dataset Access
+The dataset used in this project is **not included** in the repository and is hosted securely on **Dropbox**.
+
+To access the dataset:
+1. Request access using this link: [Dropbox Dataset Link](https://www.dropbox.com/scl/fo/2lu0e2hyivphcr943as3m/AF44tvTT9URXmdxoZas_kJI?rlkey=9e9i5pdsas57cqwmweswspp9d&st=f6ml8wxc&dl=0)  
+2. Once approved and downloaded, organize the dataset as follows:
+   ```
+   data/train/images/
+   data/train/annots/
+   data/test/images/
+   data/test/annots/
+   ```
+3. Ensure annotation files are in `.mat` format for compatibility.  
+If you don’t have access, you can also use publicly available datasets like **ShanghaiTech Part A**.
 
 ---
 
