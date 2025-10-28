@@ -1,7 +1,18 @@
-# Requirements for CrowdCCT Project (PyTorch Implementation)
+# Core PyTorch deep learning framework
 torch>=2.0.0
 torchvision>=0.15.0
+
+# Numerical operations (often a PyTorch dependency, but good to list)
 numpy>=1.24.0
+
+# Image handling (used by dataset.py for PIL.Image)
+Pillow>=9.0.0
+
+# MATLAB file loading (used by dataset.py for scipy.io.loadmat)
+scipy>=1.10.0
+
+# Evaluation metrics (used by eval.py for mean_absolute_error, mean_squared_error)
+scikit-learn>=1.2.0
+
+# Plotting (used by utils.py for matplotlib.pyplot)
 matplotlib>=3.7.0
-scikit-learn>=1.3.0
-Pillow>=10.0.0
